@@ -51,12 +51,12 @@ int main(int argc, char* argv[])
             if (isTemperatureAcceptable(temperature, minTemp, maxTemp))
             {
                 printf("NORMAL\n");
-                gpioWrite(PIN, 1); // turn on LED for NORMAL status
+                gpioWrite(PIN, 0); // turn off LED for NORMAL status
             }
             else
             {
                 printf("WARNING\n");
-                gpioWrite(PIN, 0); // turn off LED for WARNING status
+                gpioWrite(PIN, 1); // turn on LED for WARNING status
             }
             saveTemperatureToFile(temperature, minTemp, maxTemp);
         }
