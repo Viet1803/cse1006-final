@@ -16,13 +16,14 @@ int isTemperatureAcceptable(int temperature, int minTemp, int maxTemp)
 }
 void saveTemperatureToFile(int temperature, int minTemp, int maxTemp)
 {
-    FILE* file = fopen("temperature_readings.txt", "a");
+    // \\C:\Users\hxt5811@mavs.uta.edu\Documents\cse1006-final-main\data\temperature_log.csv
+    FILE* file = fopen("data/temperature_log.csv", "a");
     if (file == NULL)
     {
         printf("Error opening file!\n");
         return;
     }
-    fprintf(file, "Temperature: %d, Min: %d, Max: %d\n", temperature, minTemp, maxTemp);
+    fprintf(file, "%d, %s\n", temperature, isTemperatureAcceptable(temperature, minTemp, maxTemp) ? "NORMAL" : "WARNING");
     fclose(file);
 }
 // main function
@@ -70,7 +71,7 @@ int main(int argc, char* argv[])
         else if (choice == 3)
         {
             // Calculate average of recorded temperatures
-            FILE* file = fopen("temperature_readings.txt", "r");
+            FILE* file = fopen("data/temperature_log.csv", "r");
             if (file == NULL)
             {
                 printf("Error opening file!\n");
@@ -79,7 +80,8 @@ int main(int argc, char* argv[])
             int sum = 0;
             int count = 0;
             int temperature;
-            while (fscanf(file, "Temperature: %d, Min: %d, Max: %d\n", &temperature, &minTemp, &maxTemp) == 3)
+            char status[10];
+            while (fscanf(file, "%d, %s\n", &temperature, status) == 2)
             {
                 sum += temperature;
                 count++;
