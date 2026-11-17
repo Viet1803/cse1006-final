@@ -17,7 +17,7 @@ int isTemperatureAcceptable(int temperature, int minTemp, int maxTemp)
 void saveTemperatureToFile(int temperature, int minTemp, int maxTemp)
 {
     // \\C:\Users\hxt5811@mavs.uta.edu\Documents\cse1006-final-main\data\temperature_log.csv
-    FILE* file = fopen("data/temperature_log.csv", "a");
+    FILE* file = fopen("../data/temperature_log.csv", "a");
     if (file == NULL)
     {
         printf("Error opening file!\n");
@@ -25,6 +25,7 @@ void saveTemperatureToFile(int temperature, int minTemp, int maxTemp)
     }
     fprintf(file, "%d, %s\n", temperature, isTemperatureAcceptable(temperature, minTemp, maxTemp) ? "NORMAL" : "WARNING");
     fclose(file);
+    printf("Temperature reading saved to file.\n");
 }
 // main function
 int main(int argc, char* argv[])
@@ -57,7 +58,6 @@ int main(int argc, char* argv[])
                 printf("WARNING\n");
                 gpioWrite(PIN, 0); // turn off LED for WARNING status
             }
-            printf("Temperature reading saved to file.\n");
             saveTemperatureToFile(temperature, minTemp, maxTemp);
         }
         else if (choice == 2)
@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
         else if (choice == 3)
         {
             // Calculate average of recorded temperatures
-            FILE* file = fopen("data/temperature_log.csv", "r");
+            FILE* file = fopen("../data/temperature_log.csv", "r");
             if (file == NULL)
             {
                 printf("Error opening file!\n");
@@ -90,13 +90,13 @@ int main(int argc, char* argv[])
             {
                 double average = (double)sum / count;
                 printf("Average temperature: %.2f\n", average);
+                printf("Average temperature calculation completed.\n");
             }
             else
             {
                 printf("No temperature readings found. Cannot calculate average.\n");
             }
             fclose(file);
-            printf("Average temperature calculation completed.\n");
         }
         else if (choice == 4)
         {
